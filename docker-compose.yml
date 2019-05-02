@@ -1,0 +1,28 @@
+version: '3.2'
+services:
+    spring:
+        build:
+            dockerfile: ./docker/spring.dockerfile
+            context: .
+        image: spring
+        container_name: spring
+        ports:
+            - "8080:8080"
+        networks: 
+            - development-network
+        depends_on: 
+            - "db"
+    db:
+        image: microsoft/mssql-server-linux:2017-latest
+        container_name: mssqldev
+        environment:
+            ACCEPT_EULA: Y
+            SA_PASSWORD: Teste123
+            MSSQL_DB: produto
+        ports:
+            - "1433:1433"
+        networks: 
+            - development-network
+networks: 
+    development-network:
+        driver: bridge
